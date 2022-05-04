@@ -3,6 +3,11 @@ const app = express();
 
 const PORT = 3000;
 
+app.use('/public', express.static('public')) //middleware pour accéder aux fichiers statiques
+
+app.set('views', './views');
+app.set('view engine', 'ejs');
+
 app.get('/movies', (req, res) => {
     res.send('Bientôt des films ici même');
 });
@@ -18,7 +23,9 @@ app.get('/movies/:id', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    //res.send('Hello World!');
+    //Utiliser render pour renvoyer un template
+    res.render('index'); 
 });
 
 app.listen(3000, () => {
