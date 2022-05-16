@@ -58,6 +58,30 @@ app.get('/', (req, res) => {
     res.render('index'); 
 });
 
+app.get('/login', (req,res) => {
+    res.render('login', {title : 'Connexion'})
+})
+
+const fakeUser = {email: 'test@test.fr', password: 'test'};
+
+app.post('/login', (req,res) => {
+    console.log('login post', req.body);
+    if(!req.body) {
+        res.sendStatus(500);
+    } else {
+        if(fakeUser.email === req.body.email && fakeUser.password === req.body.password) {
+            res.json({
+                email: 'test@test.fr',
+                favoriteMovie: 'Il était une fois dans l\'Ouest',
+                favortieMovieTheater: 'Ciné TNB, 1 rue Saint-Hélier, 35040 Rennes',
+                lastLoginDate: new Date()
+            });
+        } else {
+            res.sendStatus(401)
+        }
+    }
+});
+
 app.use(express.json());
 
 app.listen(3000, () => {
