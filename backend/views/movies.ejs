@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+
     <body>
         <%- include ('./partials/header') %>
 
@@ -33,7 +34,7 @@
                 <%- include ('./partials/footer') %>
             </footer>
             <script>
-                var form = document.querySelector('form');
+                const form = document.querySelector('form');
                 form.addEventListener("submit", addMovie);
 
                 function addMovie(event) {
@@ -80,7 +81,7 @@
                     console.log('using addMovieUsingXHR()');
 
                     // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
-                    var xhr = new XMLHttpRequest();
+                    const xhr = new XMLHttpRequest();
                     xhr.open("POST", '/movies-old-browser', true);
 
                     //Send the proper header information along with the request
@@ -94,9 +95,9 @@
                     }
                     // https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
                     console.log('form: ', form);
-                    var movietitle = document.getElementById('movietitle').value;
-                    var movieyear = document.getElementById('movieyear').value;
-                    var payLoad = "movietitle=" + movietitle + "&" + "movieyear=" + movieyear;
+                    const movietitle = document.getElementById('movietitle').value;
+                    const movieyear = document.getElementById('movieyear').value;
+                    const payLoad = "movietitle=" + movietitle + "&" + "movieyear=" + movieyear;
                     xhr.send(payLoad);
                 }
             </script>
