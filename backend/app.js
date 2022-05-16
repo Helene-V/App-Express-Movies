@@ -2,18 +2,28 @@ const express = require('express');
 const app = express();
 const multer  = require('multer');
 const upload = multer();
-
+const path = require('path');
 const jwt = require('jsonwebtoken');
-
+const { expressjwt: xpJwt } = require("express-jwt");
 const PORT = 3000;
 
 let frenchMovies = [];
 
-app.set('views', './views');
-app.set('view engine', 'ejs');
 
 // to service static files from the public folder
 app.use('/public', express.static('public'));
+
+const secret = 'dzegrKJUFdrgr23215gergerg311131gregqrg86EreFqrgghf';
+
+app.use(
+  xpJwt({
+    secret: secret,
+    algorithms: ["HS256"],
+  }).unless({ path: ['/', '/movies', new RegExp('/movies.*/', 'i'), '/movie-search', '/login', new RegExp('/movie-details.*/', 'i')]}));
+//toutes les pages ont une protection avec token sauf le GET login
+
+app.set('views', './views');
+app.set('view engine', 'ejs');
 
 app.get('/movies', (req, res) => {
 
@@ -65,7 +75,7 @@ app.get('/login', (req,res) => {
 })
 
 const fakeUser = {email: 'test@test.fr', password: 'test'};
-const secret = 'dzegrKJUFdrgr23215gergerg311131gregqrg86EreFqrgghf';
+
 
 app.post('/login', (req,res) => {
     console.log('login post', req.body);
@@ -86,6 +96,10 @@ app.get('/movie-search', (req,res) => {
 })
 
 app.use(express.json());
+
+app.get('/member-only', (req,res) => {
+    console.log('req.user', req.user)
+})
 
 app.listen(3000, () => {
     console.log(`listening on port ${PORT}`);
